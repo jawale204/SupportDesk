@@ -1,5 +1,10 @@
+const { validationResult } = require("express-validator");
+
 const registerUser = (req, res) => {
-  res.json("register user");
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return res.status(400).json({ success: false, err, data: {} });
+  }
 };
 
 const loginUser = (req, res) => {
