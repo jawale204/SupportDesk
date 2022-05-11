@@ -11,6 +11,20 @@ exports.registerUserValidation = [
   body("email").isEmail().withMessage("Provide proper email"),
 
   body("password")
+    .trim()
+    .not()
+    .isEmpty()
+    .bail()
+    .withMessage("Password should not be empty")
+    .isLength({ min: 6, max: 12 })
+    .withMessage("6<=password<=12"),
+];
+
+exports.loginUserValidation = [
+  body("email").isEmail().withMessage("Provide proper email"),
+
+  body("password")
+    .trim()
     .not()
     .isEmpty()
     .bail()
