@@ -98,7 +98,17 @@ const loginUser = async (req, res) => {
 };
 
 const getMe = (req, res) => {
-  return res.json(true);
+  const user = {
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+  };
+  return res.status(200).json({
+    success: true,
+    err: null,
+    data: user,
+    message: "user found",
+  });
 };
 
 module.exports = {

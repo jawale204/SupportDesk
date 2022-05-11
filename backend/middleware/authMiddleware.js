@@ -23,7 +23,7 @@ exports.authMiddleware = async (req, res, next) => {
         message: "unauthorized",
       });
     }
-    const user = await UserSchema.findById(check.id);
+    const user = await UserSchema.findById(check.id).select("-password");
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -32,7 +32,7 @@ exports.authMiddleware = async (req, res, next) => {
         message: "user not found",
       });
     }
-    res.user = user;
+    req.user = user;
     next();
   } else {
     return res.status(401).json({
