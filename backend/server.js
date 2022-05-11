@@ -3,12 +3,19 @@ const { errorHandler } = require("./middleware/errorHandler/errorHandler");
 const app = express();
 const dotnet = require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
+const { connectDB } = require("../backend/config/db");
 
 //port
 const PORT = process.env.PORT || 5000;
 
 //for req body
 app.use(express.json());
+
+// //urlencoded
+// app.use(express.urlencoded());
+
+//mongodb connect
+connectDB();
 
 //server
 app.listen(PORT, () => {
