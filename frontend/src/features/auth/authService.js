@@ -16,8 +16,22 @@ const register = async (userData) => {
   return registerUserData.data.data;
 };
 
+const login = async (userData) => {
+  const loginUserData = await axios.post(API_URL + "/login", {
+    email: userData.email,
+    password: userData.password,
+  });
+  console.log(loginUserData);
+  if (loginUserData.data.data) {
+    localStorage.setItem("user", JSON.stringify(loginUserData.data.data));
+  }
+
+  return loginUserData.data.data;
+};
+
 const authService = {
   register,
+  login,
 };
 
 export default authService;

@@ -37,9 +37,13 @@ const registerUser = async (req, res) => {
     return res.status(201).json({
       success: true,
       err: null,
-      data: { _id: userRes._id, name: userRes.name, email: userRes.email },
+      data: {
+        _id: userRes._id,
+        name: userRes.name,
+        email: userRes.email,
+        token,
+      },
       message: "user created",
-      token,
     });
   } catch (e) {
     return res.status(500).json({
@@ -83,9 +87,8 @@ const loginUser = async (req, res) => {
     return res.status(200).json({
       success: true,
       err: null,
-      data: { _id: user._id, name: user.name, email: user.email },
+      data: { _id: user._id, name: user.name, email: user.email, token },
       message: "logged in",
-      token,
     });
   } catch (e) {
     return res.status(500).json({

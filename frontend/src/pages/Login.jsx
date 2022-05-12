@@ -1,8 +1,10 @@
 import { FaSignInAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { login, reset } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -10,11 +12,22 @@ function Login() {
   });
   const { email, password } = formData;
 
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
     (state) => state.auth,
   );
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [message, isError, isSuccess, user, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
