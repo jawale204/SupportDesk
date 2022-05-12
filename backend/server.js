@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const dotnet = require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
+const ticketRoutes = require("./routes/ticketRoutes");
 const { connectDB } = require("../backend/config/db");
 const { authMiddleware } = require("./middleware/authMiddleware");
 var cors = require("cors");
@@ -18,9 +19,11 @@ app.use(express.json());
 //mongodb connect
 connectDB();
 
-///routes
+//user routes
 app.use("/api/user", userRoutes);
 
+//ticket routes
+app.use("/api/tickets", ticketRoutes);
 //authMiddleware
 app.use(authMiddleware);
 
