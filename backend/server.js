@@ -4,6 +4,7 @@ const dotnet = require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const { connectDB } = require("../backend/config/db");
 const { authMiddleware } = require("./middleware/authMiddleware");
+var cors = require("cors");
 
 //port
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,9 @@ app.use("/api/user", userRoutes);
 
 //authMiddleware
 app.use(authMiddleware);
+
+//cross origin access
+app.use(cors());
 
 //server
 app.listen(PORT, () => {

@@ -1,8 +1,10 @@
 import { FaUser } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { register, login } from "../features/auth/authSlice";
+import { register, login, reset } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -11,12 +13,22 @@ function Register() {
     password2: "",
   });
   const { name, email, password, password2 } = formData;
-
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const navigate = useNavigate();
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
     (state) => state.auth,
   );
-
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+    return () => {};
+  }, [isError, message, dispatch, isSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,7 +53,7 @@ function Register() {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Register {user}
+          <FaUser /> Register
         </h1>
         <p>Please create an account</p>
       </section>
