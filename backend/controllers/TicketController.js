@@ -68,7 +68,7 @@ const getTicket = async (req, res) => {
     }
 
     res.status(200);
-    return sendResponse(res, true, null, ticket, "ticket found");
+    return sendResponse(res, true, null, ticket[0], "ticket found");
   } catch (e) {
     res.status(500);
     return sendResponse(res, false, e.message, {}, "Interval server error");
@@ -89,7 +89,36 @@ const deleteTicket = async (req, res) => {
 
     await ticket[0].remove();
     res.status(200);
-    return sendResponse(res, true, null, ticket, "ticket deleted");
+    return sendResponse(res, true, null, ticket[0], "ticket deleted");
+  } catch (e) {
+    res.status(500);
+    return sendResponse(res, false, e.message, {}, "Interval server error");
+  }
+};
+
+const updateTicket = async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+
+    if (!ticket) {
+      res.status(400);
+      return sendResponse(res, false, null, {}, "ticked not found");
+    }
+
+    if (ticket.user.toString() !== req.user.id) {
+      res.status(401);
+      return sendResponse(res, false, null, {}, "Unauthorized");
+    }
+
+    const updatedTicket = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      },
+    );
+    res.status(200);
+    return sendResponse(res, true, null, updatedTicket, "ticket updated");
   } catch (e) {
     res.status(500);
     return sendResponse(res, false, e.message, {}, "Interval server error");
@@ -100,4 +129,5 @@ module.exports = {
   createTicket,
   getTicket,
   deleteTicket,
+  updateTicket,
 };
