@@ -14,7 +14,9 @@ function Header() {
   };
   return (
     <header className="header">
-      <div className="logo">Support Desk</div>
+      <Link to={"/"}>
+        <div className="logo">Support Desk</div>
+      </Link>
       <ul>
         {user ? (
           <li>
