@@ -1,8 +1,9 @@
 const { validationResult } = require("express-validator");
+const res = require("express/lib/response");
 const Ticket = require("../models/Ticket");
-const TicketSchema = require("../models/Ticket");
+const { sendResponse } = require("../service/sendResponse");
 
-const getTicket = async (req, res) => {
+const getTickets = async (req, res) => {
   try {
     const tickets = await Ticket.find({ user: req.user._id });
     if (!tickets) {
@@ -41,15 +42,9 @@ const createTicket = async (req, res) => {
       status: "new",
       user: req.user._id,
     };
-
-    console.l;
     const newTicket = await Ticket.create(ticket);
-    return res.status(201).json({
-      success: true,
-      err: null,
-      data: newTicket,
-      message: "ticket created",
-    });
+    res.status(201);
+    return sendResponse(res, true, null, newTicket, "ticket created");
   } catch (e) {
     return res.status(500).json({
       success: false,
@@ -59,7 +54,50 @@ const createTicket = async (req, res) => {
     });
   }
 };
+
+const getTicket = async (req, res) => {
+  try {
+    const ticket = await Ticket.find({
+      user: req.user._id,
+      _id: req.params.id,
+    });
+
+    if (!ticket || ticket.length === 0) {
+      res.status(400);
+      return sendResponse(res, false, null, {}, "ticked not found");
+    }
+
+    res.status(200);
+    return sendResponse(res, true, null, ticket, "ticket found");
+  } catch (e) {
+    res.status(500);
+    return sendResponse(res, false, e.message, {}, "Interval server error");
+  }
+};
+
+const deleteTicket = async (req, res) => {
+  try {
+    const ticket = await Ticket.find({
+      user: req.user._id,
+      _id: req.params.id,
+    });
+
+    if (!ticket || ticket.length === 0) {
+      res.status(400);
+      return sendResponse(res, false, null, {}, "ticked not found");
+    }
+
+    await ticket[0].remove();
+    res.status(200);
+    return sendResponse(res, true, null, ticket, "ticket deleted");
+  } catch (e) {
+    res.status(500);
+    return sendResponse(res, false, e.message, {}, "Interval server error");
+  }
+};
 module.exports = {
-  getTicket,
+  getTickets,
   createTicket,
+  getTicket,
+  deleteTicket,
 };
