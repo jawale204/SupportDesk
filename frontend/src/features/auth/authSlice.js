@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export const register = createAsyncThunk(
-  "autn/register",
+  "auth/register",
   async (data, thunkAPI) => {
     console.log(data);
     try {
