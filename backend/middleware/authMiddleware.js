@@ -35,6 +35,7 @@ exports.authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } else {
+    console.log("yo");
     return res.status(401).json({
       success: false,
       err: null,

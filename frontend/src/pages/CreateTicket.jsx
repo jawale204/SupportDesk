@@ -1,16 +1,38 @@
 import React from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useNavigator } from "react-router-dom";
+import { toast } from "react-toastify";
+import { reset, createTicket } from "../features/ticket/ticketSlice";
 function CreateTicket() {
   const { user } = useSelector((state) => state.auth);
   const [name] = useState(user.name);
   const [email] = useState(user.email);
   const [product, setProduct] = useState("iMac");
   const [description, setDescription] = useState("");
+  const { isError, isSuccess, message } = useSelector((state) => state.ticket);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const ticket = {
+      product,
+      description,
+    };
+
+    dispatch(createTicket(ticket));
   };
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess) {
+      toast.success("ticket created");
+      navigate("/ticket");
+    }
+    dispatch(reset());
+  }, [message, isError, isSuccess, dispatch, navigate, reset]);
   return (
     <>
       <section className="heading">
