@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTicket, reset } from "../features/ticket/ticketSlice";
+import { getTicket, closeTicket } from "../features/ticket/ticketSlice";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import BackButton from "../components/BackButton";
@@ -18,6 +18,10 @@ function Ticket() {
     }
     dispatch(getTicket(params.ticketId));
   }, [params.ticketId, dispatch, isError, message]);
+
+  const handleCloseTicket = () => {
+    dispatch(closeTicket(ticket._id));
+  };
   if (isLoading) {
     return <Spinner />;
   }
@@ -42,8 +46,15 @@ function Ticket() {
             <h3>Description of Issue</h3>
             <p>{ticket.description}</p>
           </div>
-          <h2>Notes</h2>
         </div>
+        {ticket.status !== "closed" && (
+          <button
+            className="btn btn-block btn-danger"
+            onClick={handleCloseTicket}
+          >
+            Close Ticket
+          </button>
+        )}
       </div>
     )
   );
