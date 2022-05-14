@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateTicket from "./pages/CreateTicket";
 import PrivateRoute from "./components/PrivateRoute";
+import Tickets from "./pages/Tickets";
 function App() {
   return (
     <>
@@ -23,6 +24,9 @@ function App() {
                 exact
                 element={<CreateTicket />}
               ></Route>
+            </Route>
+            <Route path="/tickets" exact element={<PrivateRoute />}>
+              <Route path="/tickets" exact element={<Tickets />}></Route>
             </Route>
           </Routes>
           <ToastContainer />
