@@ -13,9 +13,11 @@ function Tickets() {
   const dispatch = useDispatch();
   useEffect(() => {
     return () => {
-      dispatch(reset());
+      if (isSuccess) {
+        dispatch(reset());
+      }
     };
-  }, []);
+  }, [isSuccess]);
 
   useEffect(() => {
     dispatch(getAllTickets());
