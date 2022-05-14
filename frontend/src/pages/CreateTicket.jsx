@@ -55,7 +55,7 @@ function CreateTicket() {
               name="product"
               id="product"
               value={product}
-              onChange={(e) => setProduct(e.target.valueS)}
+              onChange={(e) => setProduct(e.target.value)}
             >
               <option value="iphone">iphone</option>
               <option value="Macbook Pro">Macbook Pro</option>
