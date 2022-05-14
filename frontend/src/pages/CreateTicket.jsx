@@ -11,7 +11,9 @@ function CreateTicket() {
   const [email] = useState(user.email);
   const [product, setProduct] = useState("iMac");
   const [description, setDescription] = useState("");
-  const { isError, isSuccess, message } = useSelector((state) => state.ticket);
+  const { ticket, isError, isSuccess, message } = useSelector(
+    (state) => state.ticket,
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ function CreateTicket() {
     }
     if (isSuccess) {
       toast.success("ticket created");
-      navigate("/ticket");
+      navigate(`/ticket/${ticket._id}`);
     }
     dispatch(reset());
   }, [message, isError, isSuccess, dispatch, navigate, reset]);

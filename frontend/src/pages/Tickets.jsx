@@ -5,6 +5,7 @@ import { getAllTickets, reset } from "../features/ticket/ticketSlice";
 import { toast } from "react-toastify";
 import BackButton from "../components/BackButton";
 import TicketItem from "../components/TicketItem";
+import Spinner from "../components/Spinner";
 function Tickets() {
   const { tickets, isError, isSuccess, message, isLoading } = useSelector(
     (state) => state.ticket,
@@ -24,7 +25,7 @@ function Tickets() {
   }, [isError]);
 
   if (isLoading) {
-    return <div>spinning</div>;
+    return <Spinner />;
   }
   return (
     <>
