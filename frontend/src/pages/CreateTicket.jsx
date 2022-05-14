@@ -1,3 +1,4 @@
+import BackButton from "../components/BackButton";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,6 +37,7 @@ function CreateTicket() {
   return (
     <>
       <section className="heading">
+        <BackButton url="/" />
         <h1>Create new ticket</h1>
         <p>Please fill out form below</p>
       </section>
