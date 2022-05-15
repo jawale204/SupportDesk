@@ -78,7 +78,7 @@ function Ticket() {
             </span>
           </h2>
           <h3>
-            Date Submitted{new Date(ticket.createdAt).toLocaleString("IST")}
+            Date Submitted : {new Date(ticket.createdAt).toLocaleString("IST")}
           </h3>
           <h3>Product: {ticket.product}</h3>
           <hr />
