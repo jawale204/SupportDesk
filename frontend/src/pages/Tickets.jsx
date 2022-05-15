@@ -7,13 +7,13 @@ import BackButton from "../components/BackButton";
 import TicketItem from "../components/TicketItem";
 import Spinner from "../components/Spinner";
 function Tickets() {
-  const { tickets, isError, isSuccess, message, isLoading } = useSelector(
+  const { tickets, isError, message, isLoading } = useSelector(
     (state) => state.ticket,
   );
   const dispatch = useDispatch();
   useEffect(() => {
     return () => {
-      //dispatch(reset());
+      dispatch(reset());
     };
   }, []);
 

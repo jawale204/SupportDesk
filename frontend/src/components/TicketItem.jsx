@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function TicketItem({ ticket }) {
   return (
@@ -7,9 +7,9 @@ function TicketItem({ ticket }) {
       <div>{new Date(ticket.createdAt).toLocaleString("IST")}</div>
       <div>{ticket.product}</div>
       <div className={`status status-${ticket.status}`}>{ticket.status}</div>
-      <Link to={`/ticket/${ticket._id}`} className="btn btn-reverse btn-sm">
+      <NavLink to={`/ticket/${ticket._id}`} className="btn btn-reverse btn-sm">
         View
-      </Link>
+      </NavLink>
     </div>
   );
 }

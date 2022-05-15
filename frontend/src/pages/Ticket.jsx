@@ -7,7 +7,11 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
-import { getNotes, reset as noteReset } from "../features/note/noteSlice";
+import {
+  getNotes,
+  reset as noteReset,
+  addNote,
+} from "../features/note/noteSlice";
 import NoteItem from "../components/NoteItem";
 import Modal from "react-modal";
 
@@ -54,7 +58,8 @@ function Ticket() {
   };
   const onNoteSubmit = (e) => {
     e.preventDefault();
-    console.log(noteText);
+    dispatch(addNote({ ticketId: ticket._id, text: noteText }));
+    setNoteText("");
     setIsClosedModal(true);
   };
   if (isLoading || noteIsLoading) {
@@ -92,7 +97,7 @@ function Ticket() {
         <Modal
           isOpen={!isClosedModel}
           contentLabel="Add Notes"
-          onRequestClose={true}
+          onRequestClose={() => setIsClosedModal(true)}
           style={customStyles}
         >
           <h2>Add Note</h2>
@@ -107,6 +112,8 @@ function Ticket() {
                 className="form-control"
                 placeholder="Note text"
                 value={noteText}
+                minLength={10}
+                required
                 onChange={(e) => setNoteText(e.target.value)}
               ></textarea>
             </div>
@@ -117,6 +124,9 @@ function Ticket() {
             </div>
           </form>
         </Modal>
+        {notes.map((note) => {
+          return <NoteItem key={note._id} note={note} />;
+        })}
         {ticket.status !== "closed" && (
           <button
             className="btn btn-block btn-danger"
@@ -125,10 +135,6 @@ function Ticket() {
             Close Ticket
           </button>
         )}
-
-        {notes.map((note) => {
-          return <NoteItem key={note._id} note={note} />;
-        })}
       </div>
     )
   );
