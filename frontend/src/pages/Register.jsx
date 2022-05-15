@@ -69,6 +69,8 @@ function Register() {
               placeholder="Enter your name"
               onChange={handleChange}
               required
+              maxLength={10}
+              minLength={5}
             />
           </div>
           <div className="form-group">
