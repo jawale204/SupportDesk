@@ -30,6 +30,39 @@ const getNotes = async (req, res) => {
   }
 };
 
+const createNotes = async (req, res) => {
+  try {
+    const ticketRes = await TicketSchema.findById(req.params.ticketId);
+    if (!ticketRes) {
+      res.status(400);
+      return sendResponse(
+        res,
+        false,
+        "Ticket not found",
+        {},
+        "Ticket not found",
+      );
+    }
+
+    if (ticketRes.user.toString() !== req.user._id.toString()) {
+      res.status(400);
+      return sendResponse(res, false, "unAuthorized", {}, "unAuthorized");
+    }
+    const noteObj = {
+      text: req.body.text,
+      user: req.user._id,
+      ticket: ticketRes._id,
+    };
+    const note = await NoteSchema.create(noteObj);
+    res.status(201);
+    return sendResponse(res, true, null, note, "note created");
+  } catch (e) {
+    res.status(500);
+    return sendResponse(res, false, e.message, {}, "internal server error");
+  }
+};
+
 module.exports = {
   getNotes,
+  createNotes,
 };
