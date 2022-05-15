@@ -25,8 +25,6 @@ app.use("/api/user", userRoutes);
 
 //ticket routes
 app.use("/api/tickets", ticketRoutes);
-//authMiddleware
-app.use(authMiddleware);
 
 // Serve Frontend
 if (process.env.NODE_ENV === "production") {
