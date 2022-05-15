@@ -9,6 +9,10 @@ const {
 } = require("../controllers/TicketController");
 const { authMiddleware } = require("../middleware/authMiddleware");
 const { createTicketValidation } = require("../validation/Ticket");
+const noteRouter = require("../routes/notesRoutes");
+
+router.use("/:ticketId/notes", noteRouter);
+
 router.get("/", authMiddleware, getTickets);
 
 router.post("/", createTicketValidation, authMiddleware, createTicket);
