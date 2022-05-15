@@ -9,12 +9,12 @@ const initialState = {
   message: "",
 };
 
-const getNotes = createAsyncThunk(
+export const getNotes = createAsyncThunk(
   "note/getNotes",
-  async (tokenId, thunkAPI) => {
+  async (ticketId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await noteService.getNotes(token, tokenId);
+      return await noteService.getNotes(token, ticketId);
     } catch (error) {
       console.log(error);
       const message =
@@ -29,9 +29,7 @@ const noteSlice = createSlice({
   name: "note",
   initialState,
   reducers: {
-    reset: (state) => {
-      return initialState;
-    },
+    reset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder

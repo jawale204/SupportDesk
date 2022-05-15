@@ -1,14 +1,14 @@
 import axios from "axios";
 
-API_URL = "/api/tickets/";
+const API_URL = "/api/tickets/";
 
 export const getNotes = async (token, tickedId) => {
   const config = {
-    header: {
+    headers: {
       authorization: `Bearer ${token}`,
     },
   };
-  const notes = axios.get(API_URL + tickedId + "/notes", config);
+  const notes = await axios.get(API_URL + tickedId + "/notes", config);
 
   return notes.data.data;
 };
