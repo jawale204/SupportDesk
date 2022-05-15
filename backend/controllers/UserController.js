@@ -7,7 +7,12 @@ const bcryptjs = require("bcryptjs");
 const registerUser = async (req, res) => {
   const err = validationResult(req);
   if (!err.isEmpty()) {
-    return res.status(400).json({ success: false, err, data: {} });
+    return res.status(400).json({
+      success: false,
+      err,
+      data: {},
+      message: "field validation error",
+    });
   }
   const { name, password, email } = req.body;
 
@@ -58,7 +63,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
-    return res.status(400).json({ success: false, err: error, data: {} });
+    return res.status(400).json({
+      success: false,
+      err: error,
+      data: {},
+      message: "field validation error",
+    });
   }
   try {
     const { email, password } = req.body;
