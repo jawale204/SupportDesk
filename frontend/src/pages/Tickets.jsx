@@ -13,7 +13,7 @@ function Tickets() {
   const dispatch = useDispatch();
   useEffect(() => {
     return () => {
-      dispatch(reset());
+      //dispatch(reset());
     };
   }, []);
 
