@@ -75,6 +75,8 @@ function Login() {
               placeholder="Enter password"
               onChange={handleChange}
               required
+              minLength={6}
+              maxLength={12}
             />
           </div>
 
